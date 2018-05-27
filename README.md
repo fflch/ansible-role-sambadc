@@ -22,8 +22,11 @@ grouped here to achieve a different approach to setup samba dc. The roles and wh
  - https://github.com/mrlesmithjr/ansible-samba: This role creates a file on targert server to avoid join or create DC when it already is part of DC group.
  
  - https://github.com/criecm/ansible-role-samba
- - https://github.com/gentoo-ansible/role-samba-dc/
+ 
+ - https://github.com/gentoo-ansible/role-samba-dc: This role contains a lot of tasks to check if dns queries and kerberos login are ok.
+ 
  - https://github.com/tschifftner/ansible-role-samba
+ 
  - https://github.com/jtyr/ansible-samba
  - https://github.com/raasss/ansible-role-samba
  - https://github.com/HiTechRabbit/secondary_dc_samba_ansible
