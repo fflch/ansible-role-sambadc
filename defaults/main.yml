@@ -1,26 +1,26 @@
-samba:
-  global:
-    workgroup: "workgroup"
-    server_string: "%h server (Samba, debian)"
-    netbios_name: "samba"
-    security: "user"
-    #null_passwords: "yes"
-    Map_to_guest: "Bad User"
-    load_printers: "yes"
-    wide_links: "yes"
-    #follow_symlink: "yes"
-    unix_extensions: "no"
-    dns_proxy: "no"
-    log_file: "/var/log/samba/samba.%m"
-    log_level: "2"
-    strict_allocate: "Yes"
-    read_raw: "Yes"
-    write_raw: "Yes"
+sambadc_realm: "pandora.tux.local"
+sambadc_forwarder: "8.8.8.8"
 
-    #file locking
-    strict_locking: "No"
-    socket_options: "TCP_NODELAY IPTOS_LOWDELAY SO_RCVBUF=65535 SO_SNDBUF=65535"
-    min_receivefile_size: "16384"
-    use_sendfile: "true"
-    aio_read_size: "16384"
-    aio_write_size: "16384"
+sambadc_global:
+  realm: "{{ sambadc_realm|upper }}"
+  domain: "{{ sambadc_realm.split('.')[0]|upper }}"
+  workgroup: "workgroup"
+  printing: CUPS
+  "printcap name": cups
+  "cups server": "192.168.8.43:631"
+  "dns forwarder": "{{ sambadc_forwarder}}"
+  "netbios name": "{{ ansible_hostname }}"
+  "load printers": "yes"
+  "log file": "/var/log/samba/samba.%m"
+  "log level": "2"
+  'idmap_ldb:use rfc2307': 'yes'
+  "server role": "active directory domain controller"
+
+sambadc_sections:
+  - name: netlogon
+    path: "/usr/local/samba/var/locks/sysvol/{{sambadc_realm|lower}}/scripts"
+    "read only": No
+  - name: sysvol
+    path: "/usr/local/samba/var/locks/sysvol"
+    "read only": No
+

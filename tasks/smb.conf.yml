@@ -1,6 +1,6 @@
 ---
 - name: set smb.conf
-  template: >
+  template:
     src=smb.conf.j2
     dest=/etc/samba/smb.conf
     owner=root
