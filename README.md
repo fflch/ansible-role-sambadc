@@ -5,16 +5,17 @@ This role only does two jobs:
  - Create a new Domain Controler (DC) in a samba server 
  - Join a new DC to a existent DC group
  
- This role does not do the following, but depends then operaring:
+ This role does not do the following, but depends them to work:
  
  - Install samba
  - Configure resolv.conf
 
 Said that, this role contains a lot of codes and ideas copied from another roles and were
-grouped here to achieve a different approach to setup samba dc. 
+grouped here to achieve a different approach to setup samba dc. The roles and what was copied are listed below.
 
 
- - https://github.com/yamb00/ansible-role-samba/: This role implement a  
+ - https://github.com/yamb00/ansible-role-samba/: This role implements a template to smb.conf that allow 
+ any option to be set via ansible variable. 
 
 - https://github.com/bertvv/ansible-role-samba
  - https://github.com/mrlesmithjr/ansible-samba
