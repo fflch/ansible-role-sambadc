@@ -1,2 +1,2 @@
 ---
-# tasks file for ansible-role-samba-dc
+- import_tasks: smb.conf.yml

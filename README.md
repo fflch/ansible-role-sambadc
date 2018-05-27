@@ -1,10 +1,11 @@
 Role Name
 =========
 
-This role is a collection of codes and ideas from another good roles:
+This role is a collection of codes and ideas from another roles:
 
- - https://github.com/bertvv/ansible-role-samba
- - https://github.com/yamb00/ansible-role-samba/
+ - https://github.com/yamb00/ansible-role-samba/: This role implement a  
+
+- https://github.com/bertvv/ansible-role-samba
  - https://github.com/mrlesmithjr/ansible-samba
  - https://github.com/criecm/ansible-role-samba
  - https://github.com/gentoo-ansible/role-samba-dc/
