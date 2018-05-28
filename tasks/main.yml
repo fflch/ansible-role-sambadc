@@ -1,2 +1,5 @@
 ---
-- import_tasks: smb.conf.yml
+- import_tasks: create_domain.yml
+  when: not sambadc_join
+
+- import_tasks: smb.conf.yml  

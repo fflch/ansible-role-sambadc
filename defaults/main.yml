@@ -1,5 +1,9 @@
 sambadc_realm: "pandora.tux.local"
 sambadc_forwarder: "8.8.8.8"
+samadc_admin_password: 'Passw0dR209TT'
+
+# if sambadc_join is false, create a new DC
+sambadc_join: False
 
 sambadc_global:
   realm: "{{ sambadc_realm|upper }}"

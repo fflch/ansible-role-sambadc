@@ -6,5 +6,5 @@
     owner=root
     group=root
     mode=0644
-#  notify:
-#    - restart samba
+  notify:
+    - restart samba-ad-dc
