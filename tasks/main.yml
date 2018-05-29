@@ -1,5 +1,9 @@
 ---
 - import_tasks: create_domain.yml
-  when: not sambadc_join
+  when: sambadc_type == "new"
+
+- import_tasks: join_domain.yml
+  when: sambadc_type == "join"
 
 - import_tasks: smb.conf.yml  
+- import_tasks: krb5.conf.yml  

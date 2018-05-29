@@ -6,6 +6,6 @@
     owner=root
     group=root
     mode=0644
-    validate: 'testparm -s %s'
+    validate='testparm -s %s'
   notify:
     - restart samba-ad-dc
