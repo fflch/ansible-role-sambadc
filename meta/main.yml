@@ -2,6 +2,7 @@ galaxy_info:
   author: thiagogomesverissimo
   description: create or join samba DC
   company: USPdev
+  role_name: sambadc
   
   license: "license (BSD, MIT)"
 
