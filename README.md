@@ -48,5 +48,5 @@ You should install samba before run this role:
     - hosts: servers
       roles:
          - uspdev.install-samba
-         - thiagogomesverissimo.sambadc
+         - uspdev.sambadc
 
