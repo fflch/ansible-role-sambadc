@@ -9,3 +9,18 @@
     validate='testparm -s %s'
   notify:
     - restart samba-ad-dc
+  when: sambadc_smb_path is not defined
+
+- name: use a fixed smb.conf
+  template:
+    src="{{ sambadc_smb_path }}"
+    dest=/etc/samba/smb.conf
+    owner=root
+    group=root
+    mode=0644
+    validate='testparm -s %s'
+  notify:
+    - restart samba-ad-dc
+  when: sambadc_smb_path is defined
+
+ 

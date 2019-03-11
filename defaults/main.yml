@@ -8,6 +8,9 @@ sambadc_sysvol: "/var/lib/samba/sysvol"
 # sambadc_type: new or join
 sambadc_type: "new"
 
+# to use a specific smb.conf
+# sambadc_smb_path: files/smb.conf
+
 sambadc_global:
   realm: "{{ sambadc_realm|upper }}"
   workgroup: "{{ sambadc_realm.split('.')[0]|upper }}"
@@ -23,7 +26,6 @@ sambadc_global:
   "server role": "active directory domain controller"
   interfaces: "eth1 lo"
   "bind interfaces only": yes
-
 
 sambadc_sections:
   - name: netlogon
