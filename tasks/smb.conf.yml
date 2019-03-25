@@ -1,5 +1,5 @@
 ---
-- name: set smb.conf
+- name: set smb.conf dinamically
   template:
     src=smb.conf.j2
     dest=/etc/samba/smb.conf

@@ -4,11 +4,6 @@
     state: absent
     path: "{{ sambadc_smbconf }}"
 
-- name: join_domain | Checking If Already Joined To Domain
-  stat:
-    path: /etc/samba/.samba_ad_joined
-  register: samba_ad_join_check
-
 - name: join_domain | Joining Domain
   command: >
     samba-tool domain join 
@@ -17,12 +12,5 @@
     --password='{{ samadc_admin_password }}'
     --realm={{ sambadc_realm|upper }}
     --dns-backend=SAMBA_INTERNAL 
-  register: _samba_domain_joined
-  when: not samba_ad_join_check['stat']['exists']
-
-- name: join_domain | Marking As Joined To Domain
-  file:
-    path: /etc/samba/.samba_ad_joined
-    state: touch
-  become: true
-  when: _samba_domain_joined['changed']
+  notify:
+    - restart samba-ad-dc

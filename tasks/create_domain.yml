@@ -4,11 +4,6 @@
     state: absent
     path: "{{ sambadc_smbconf }}"
 
-- name: create_domain | checking if domain created
-  stat:
-    path: /etc/samba/.samba_ad_created
-  register: samba_ad_created_check
-
 - name: provision
   command: >
     samba-tool domain provision
@@ -18,11 +13,5 @@
       --domain={{ sambadc_realm.split('.')[0]|upper }}
       --adminpass='{{ samadc_admin_password }}'
       --use-rfc2307
-  register: samba_ad_created
-  when: not samba_ad_created_check['stat']['exists']
-
-- name: create_domain | marking domain as created
-  file:
-    dest: /etc/samba/.samba_ad_created
-    state: touch
-  when: samba_ad_created
+  notify:
+    - restart samba-ad-dc

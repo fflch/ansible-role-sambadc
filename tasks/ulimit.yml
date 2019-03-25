@@ -1,0 +1,38 @@
+# ulimit -n 65536 or unlimited
+# https://www.vivaolinux.com.br/topico/Debian/erro-rlimit_max-(16384)-Samba-PDC
+# https://superuser.com/questions/740000/modify-and-apply-limits-conf-without-reboot
+
+- lineinfile:
+    path: /etc/pam.d/common-session
+    line: 'session required pam_limits.so'
+
+#- name: current ulimit
+#  shell: ulimit -n 65536
+
+- name: avoid smb.conf testparm problem soft - root
+  pam_limits:
+    domain: root
+    limit_type: 'soft'
+    limit_item: nofile
+    value: 65536
+
+- name: avoid smb.conf testparm problem hard - root
+  pam_limits:
+    domain: root
+    limit_type: 'hard'
+    limit_item: nofile
+    value: 65536
+
+- name: avoid smb.conf testparm problem soft - all users
+  pam_limits:
+    domain: '*'
+    limit_type: 'soft'
+    limit_item: nofile
+    value: 65536
+
+- name: avoid smb.conf testparm problem hard - all users
+  pam_limits:
+    domain: '*'
+    limit_type: 'hard'
+    limit_item: nofile
+    value: 65536
