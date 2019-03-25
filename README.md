@@ -3,8 +3,8 @@ sambadc role
 
 This role only does two jobs:
 
- - Create a new Domain Controler (DC) in a samba server 
- - Or join a new DC to a existent DC group
+ - Configure a pre-installed samba server to be a new Domain Controler (DC)
+ - Or configure a pre-installed samba server to join to existent DC group
  
  This role does not do the following, but depends them to work:
  
