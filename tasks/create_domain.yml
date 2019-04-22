@@ -11,7 +11,7 @@
       --dns-backend=SAMBA_INTERNAL
       --realm={{ sambadc_realm|upper }}
       --domain={{ sambadc_realm.split('.')[0]|upper }}
-      --adminpass='{{ samadc_admin_password }}'
+      --adminpass='{{ sambadc_admin_password }}'
       --use-rfc2307
   notify:
     - restart samba-ad-dc

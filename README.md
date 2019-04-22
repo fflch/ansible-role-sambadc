@@ -26,7 +26,6 @@ grouped here to achieve a different approach to setup samba dc:
  - https://github.com/HiTechRabbit/secondary_dc_samba_ansible
  - https://github.com/darrylweaver/ansible-samba
 
-
 Example Playbook
 ----------------
 
@@ -34,6 +33,12 @@ You should install samba before run this role:
 
     - hosts: servers
       roles:
-         - uspdev.install-samba
+         - uspdev.install_samba
          - uspdev.sambadc
 
+Tips
+----
+
+Show domain level password options.
+
+    samba-tool domain passwordsettings show

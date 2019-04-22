@@ -1,0 +1,18 @@
+- name: Disable password expiration for the Administrator account.
+  command: samba-tool user setexpiry Administrator --noexpiry 
+
+- name: Disable password complexity at the domain level.
+  command: samba-tool domain passwordsettings set --complexity=off
+
+- name: Disable password history at the domain level
+  command: samba-tool domain passwordsettings set --history-length=0
+
+- name: Disable password min-age at the domain level
+  command: samba-tool domain passwordsettings set --min-pwd-age=0
+
+- name: Disable password max-age at the domain level.
+  command: samba-tool domain passwordsettings set --max-pwd-age=0
+
+- name: Disable minimum password length at the domain level.
+  command: samba-tool domain passwordsettings set --min-pwd-length=0
+ 

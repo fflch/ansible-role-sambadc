@@ -9,7 +9,7 @@
     samba-tool domain join 
     {{ sambadc_realm|upper }} DC 
     --username="{{ sambadc_realm.split('.')[0]|upper  }}\administrator" 
-    --password='{{ samadc_admin_password }}'
+    --password='{{ sambadc_admin_password }}'
     --realm={{ sambadc_realm|upper }}
     --dns-backend=SAMBA_INTERNAL 
   notify:
