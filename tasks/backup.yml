@@ -1,0 +1,14 @@
+# backup versões antigas
+# https://wiki.samba.org/index.php/Using_the_samba_backup_script
+
+- name: copy samba_backup
+  template:
+    src=samba_backup
+    dest=/usr/sbin/samba_backup
+    owner=root
+    group=root
+    mode=0750
+
+
+# back versões novas
+# https://wiki.samba.org/index.php/Back_up_and_Restoring_a_Samba_AD_DC
