@@ -9,6 +9,14 @@
     group=root
     mode=0750
 
+- name: Run backups"
+  cron:
+    name: "backup samba"
+    minute: "0"
+    hour: "2"
+    job: "/usr/sbin/samba_backup"
 
-# back versões novas
+
+
+# backup versões novas:
 # https://wiki.samba.org/index.php/Back_up_and_Restoring_a_Samba_AD_DC
