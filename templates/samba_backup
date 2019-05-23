@@ -1,56 +1,19 @@
 #!/bin/sh
 #
 # Copyright (C) Matthieu Patou <mat@matws.net> 2010-2011
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
- 
+
 TARGETDIRS="/var/lib/samba/private /var/lib/samba/sysvol /etc/samba"
 WHERE=/var/backups/samba-dc
-mkdir -p $WHERE
+WHEN=`date +%Y-%m-%d`	# ISO 8601 standard date.
+DAYS=90
 
-if [ -n "$1" ] && [ "$1" = "-h" -o "$1" = "--usage" ]; then
-    echo "samba_backup '[provisiondirs]' [destinationdir]"
-    echo "Will backup your provision located in provisiondir to archive stored i
-n destinationdir"
-    echo "Default Ubuntu provisiondirs: $TARGETDIRS"
-    echo "Default destinationdir: $WHERE"
-    exit 0
-fi
- 
-if [ $# -gt 2 ]; then
-    echo "If you give provisiondirs parameter, Don't forget add Quotation!"
-    exit 0
-fi
- 
-[ -n "$1" -a -d "$1" ]&&TARGETDIRS=$1
-[ -n "$2" -a -d "$2" ]&&WHERE=$2
- 
-if [ ! -d $WHERE ]; then
-    echo "Missing backup directory $WHERE"
-    exit 1
-fi
- 
-if [ ! -d $FROMWHERE ]; then
-    echo "Missing or wrong provision directory $FROMWHERE"
-    exit 1
-fi
+mkdir -p $WHERE
  
 # to set: setdomainsid XXXXXX
 /usr/bin/net getdomainsid > /tmp/domainsid
 
 for tdir in $TARGETDIRS;do
+    mkdir -p $WHERE/$WHEN
     cd `dirname $tdir`
     d=`basename $tdir`
     relativedirname=`find . -type d -name "$d" -prune`
@@ -71,32 +34,34 @@ for tdir in $TARGETDIRS;do
         done
         find $relativedirname -name "*.tdb.bak" -exec rm {} \;
         for ldb in `find $relativedirname -name "*.tdb"`; do
-            tdbbackup $ldb
+            #tdbbackup $ldb
             if [ $? -ne 0 ]; then
                 echo "Error while backuping $ldb"
                 exit 1
             fi
         done
-        tar --exclude="*.ldb" --exclude="*.tdb" -cjf ${WHERE}/samba4_${n}.tar.bz2  $relativedirname --xattrs --warning=no-file-ignored --transform 's/.ldb.bak$/.ldb/' --transform 's/.tdb.bak$/.tdb/' >/dev/null 2>&1
+        tar --exclude="*.ldb" --exclude="*.tdb" -cjf ${WHERE}/${WHEN}/samba4_${n}.${WHEN}.tar.bz2  $relativedirname --xattrs --warning=no-file-ignored --transform 's/.ldb.bak$/.ldb/' --transform 's/.tdb.bak$/.tdb/'
+
         if [ $? -ne 0 ]; then
-            echo "Error while archiving ${WHERE}/samba4_${n}.${WHEN}.tar.bz2"
+            echo "Error while archiving ${WHERE}/${WHEN}/samba4_${n}.${WHEN}.tar.bz2"
             exit 1
         fi
         find $relativedirname -name "*.ldb.bak" -exec rm {} \;
         find $relativedirname -name "*.tdb.bak" -exec rm {} \;
     else
-        tar cjf ${WHERE}/samba4_${n}.tar.bz2  $relativedirname --xattrs >/dev/null 2>&1
+        tar cjf ${WHERE}/${WHEN}/samba4_${n}.${WHEN}.tar.bz2  $relativedirname --xattrs
         if [ $? -ne 0 ]; then
-            echo "Error while archiving ${WHERE}/samba4_${n}.${WHEN}.tar.bz2"
+            echo "Error while archiving ${WHERE}/${WHEN}/samba4_${n}.${WHEN}.tar.bz2"
             exit 1
         fi
     fi
 done
+
 tdir="/var/lib/samba"
 cd `dirname $tdir`
 d=`basename $tdir`
 relativedirname=`find . -type d -name "$d" -prune`
-find $relativedirname -name "*.tdb.bak" -exec rm {} \;
+find $relativedirname -name "*.tdb.bak" ! -path private/* -exec rm {} \;
 for ldb in `find $relativedirname -name "*.tdb"`; do
     tdbbackup $ldb
     if [ $? -ne 0 ]; then
@@ -105,5 +70,7 @@ for ldb in `find $relativedirname -name "*.tdb"`; do
     fi
 done
 n=`echo $tdir|sed 's|\/|_|g'|sed 's/^_//'`
-tar -cjf ${WHERE}/samba4_${n}.tar.bz2  $relativedirname/*.tdb.bak --xattrs --warning=no-file-ignored --transform 's/.tdb.bak$/.tdb/' >/dev/null 2>&1
+tar -cjf ${WHERE}/${WHEN}/samba4_${n}.${WHEN}.tar.bz2  $relativedirname/*.tdb.bak --xattrs --warning=no-file-ignored --transform 's/.tdb.bak$/.tdb/'
+
+find $WHERE -name "samba4_*bz2" -mtime +$DAYS -exec rm  {} \;
 find "/var/lib/samba" -name "*.tdb.bak" -exec rm {} \;
