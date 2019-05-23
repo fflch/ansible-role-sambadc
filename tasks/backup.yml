@@ -9,14 +9,19 @@
     group=root
     mode=0750
 
-- name: Run backups"
+- name: Run backups
   cron:
     name: "backup samba"
     minute: "0"
     hour: "2"
     job: "/usr/sbin/samba_backup"
 
-
+- name: Sobe servidor samba, depois de 1 hora do backup, para casos de erro
+  cron:
+    name: "Sobe servidor samba"
+    minute: "0"
+    hour: "3"
+    job: "/usr/sbin/service samba-ad-dc start"
 
 # backup versões novas:
 # https://wiki.samba.org/index.php/Back_up_and_Restoring_a_Samba_AD_DC
