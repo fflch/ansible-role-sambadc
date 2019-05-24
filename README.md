@@ -42,3 +42,44 @@ Tips
 Show domain level password options.
 
     samba-tool domain passwordsettings show
+
+## Procedimento de restauração de backup em caso de pane.
+Baseado em https://wiki.samba.org/index.php/Using_the_samba_backup_script
+
+Criar nova máquina com:
+
+ - mesmo hostname
+ - mesmo ip
+
+Instalar samba e o configure como DC. Use a esta role, sambadc, para esta função.
+Parar o serviço do samba:
+
+/usr/sbin/service samba-ad-dc stop
+
+Configurar id:
+
+    net setdomainsid S-1-5-21-1948074455-2901749274-3793093824
+
+Remove as pastas:
+
+    rm -rf /etc/samba/ /var/lib/samba/
+
+Descompactar backups:
+
+    tar -jxf etc_samba.tar.bz2 -C /etc
+    tar -jxf var_lib_samba.tar.bz2 -C /var/lib/
+    tar -jxf var_lib_samba_private.tar.bz2 -C /var/lib/samba/
+    tar -jxf var_lib_samba_sysvol.tar.bz2 -C /var/lib/samba/
+
+Criar os arquivos para idepotência da role sambadc:
+
+    touch /var/.samba_ad_created
+    touch /var/.samba_ad_joined
+
+[VERIFICAR] Não entendi se precisamos rodar ou não:
+
+    samba-tool ntacl sysvolreset
+
+Subir o serviço:
+
+    /usr/sbin/service samba-ad-dc start
