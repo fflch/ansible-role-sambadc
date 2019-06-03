@@ -1,15 +1,15 @@
 ---
-# adapted from https://github.com/mrlesmithjr/ansible-samba/blob/master/tasks/join_domain.yml
-- name: join_domain | Checking If Already Joined To Domain
+# adapted from https://github.com/mrlesmithjr/ansible-samba/blob/master/tasks/create_domain.yml
+- name: create_domain | checking if domain created
   stat:
-    path: /var/.samba_ad_joined
-  register: samba_ad_join_check
+    path: /var/.samba_ad_created
+  register: samba_ad_created_check
 
 - name: rm smb.conf
   file:
     state: absent
     path: "{{ sambadc_smbconf }}"
-  when: not samba_ad_join_check['stat']['exists']
+  when: not samba_ad_created_check['stat']['exists']
 
 - name: join_domain | Joining Domain
   command: >
@@ -19,14 +19,16 @@
     --password='{{ sambadc_admin_password }}'
     --realm={{ sambadc_realm|upper }}
     --dns-backend=SAMBA_INTERNAL 
-  register: _samba_domain_joined
-  when: not samba_ad_join_check['stat']['exists']
+  register: samba_ad_created
+  when: not samba_ad_created_check['stat']['exists']
   notify:
     - restart samba-ad-dc
 
-- name: join_domain | Marking As Joined To Domain
+- name: create_domain | marking domain as created
   file:
-    path: /var/.samba_ad_joined
+    dest: /var/.samba_ad_created
     state: touch
-  become: true
-  when: _samba_domain_joined['changed']
+  register: _samba_domain_created
+  when: >
+    samba_ad_created['changed'] and
+    not samba_ad_created_check['stat']['exists']

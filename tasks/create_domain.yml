@@ -31,7 +31,6 @@
   file:
     dest: /var/.samba_ad_created
     state: touch
-  become: true
   register: _samba_domain_created
   when: >
     samba_ad_created['changed'] and
