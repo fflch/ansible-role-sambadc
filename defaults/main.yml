@@ -3,14 +3,13 @@ sambadc_forwarder: "8.8.8.8"
 sambadc_admin_password: 'Passw0dR209TT'
 
 # sambadc_type: new or join
-sambadc_type: "new" 
+sambadc_type: "new"
 
 #### Atention: There are two ways to build smb.conf:
 
 ## 1. A fixed one, so, you must to set sambadc_smb_path like this:
 # sambadc_smb_path: files/smb.conf
 
-#############################
 ## 2. Dinamically (ugly), in this case, you must to set a lot of variables, like this: 
 sambadc_smbconf: "/etc/samba/smb.conf"
 sambadc_sysvol: "/var/lib/samba/sysvol"
@@ -18,18 +17,12 @@ sambadc_sysvol: "/var/lib/samba/sysvol"
 sambadc_global:
   realm: "{{ sambadc_realm|upper }}"
   workgroup: "{{ sambadc_realm.split('.')[0]|upper }}"
-  printing: CUPS
-  "printcap name": cups
-  "cups server": "192.168.8.43:631"
   "dns forwarder": "{{ sambadc_forwarder}}"
   "netbios name": "{{ ansible_hostname|upper }}"
-  "load printers": "yes"
-  "log file": "/var/log/samba/samba.%m"
-  "log level": "2"
+  "log file": "/var/log/samba/samba.log"
+  "log level": "3"
   'idmap_ldb:use rfc2307': 'yes'
   "server role": "active directory domain controller"
-  interfaces: "eth1 lo"
-  "bind interfaces only": yes
 
 sambadc_sections:
   - name: netlogon
