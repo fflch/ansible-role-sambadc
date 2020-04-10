@@ -56,7 +56,7 @@ Parar o serviço do samba:
 
 /usr/sbin/service samba-ad-dc stop
 
-Configurar id:
+Configurar id (que está no backup):
 
     net setdomainsid S-1-5-21-1948074455-2901749274-3793093824
 
