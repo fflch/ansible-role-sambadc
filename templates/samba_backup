@@ -2,7 +2,7 @@
 
 WHERE=/backups/samba
 WHEN=`date +%Y-%m-%d-%H%M`	# ISO 8601 standard date.
-DAYS=30
+DAYS=7
 
 /usr/sbin/service samba-ad-dc stop
 mkdir -p $WHERE/$WHEN
