@@ -1,6 +1,7 @@
 sambadc_realm: "pandora.tux.local"
 sambadc_forwarder: "8.8.8.8"
 sambadc_admin_password: 'Passw0dR209TT'
+sambadc_static: true
 
 # sambadc_type: new or join
 sambadc_type: "new"
@@ -31,3 +32,13 @@ sambadc_sections:
   - name: sysvol
     path: "{{sambadc_sysvol}}"
     "read only": No
+    
+    
+# variáveis samba
+sambadc_cups_server    : cups.br:631
+sambadc_workgroup      : smbdomain
+sambadc_netbios        : SAMBADC
+sambadc_interfaces     : eth1 lo
+sambadc_printers       : []
+#  - name: adm_samsung_pb_m4080fx_editora
+#  - name: adm_samsung_pb_m4080fx_sti

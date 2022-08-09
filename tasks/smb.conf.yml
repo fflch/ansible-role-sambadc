@@ -9,11 +9,11 @@
     validate='testparm -s %s'
   notify:
     - restart samba-ad-dc
-  when: sambadc_smb_path is not defined
+  when: not sambadc_static
 
 - name: use a fixed smb.conf
   template:
-    src="{{ sambadc_smb_path }}"
+    src="smb.static.conf.j2"
     dest=/etc/samba/smb.conf
     owner=root
     group=root
@@ -21,6 +21,6 @@
     validate='testparm -s %s'
   notify:
     - restart samba-ad-dc
-  when: sambadc_smb_path is defined
+  when: sambadc_static
 
  
