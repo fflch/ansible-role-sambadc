@@ -2,6 +2,8 @@ sambadc_realm: "pandora.tux.local"
 sambadc_forwarder: "8.8.8.8"
 sambadc_admin_password: 'Passw0dR209TT'
 sambadc_static: true
+sambadc_load_printers_from_csv: true
+sambadc_csv_printers: "{{ lookup('file', '../../files/printers.csv') }}"
 
 # sambadc_type: new or join
 sambadc_type: "new"

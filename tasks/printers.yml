@@ -1,0 +1,16 @@
+- name: creates sambadc_printers
+  set_fact: 
+    sambadc_printers: []
+
+- name: creates printers_from_csv
+  set_fact: 
+    printers_from_csv: "{{ sambadc_csv_printers.split('\n') }}"
+
+- name: monta lista de dicionários sambadc_printers
+  set_fact: 
+    sambadc_printers: > 
+      {{ sambadc_printers + [{ 
+        'name': item.split(',')[0]
+      }]}}
+  with_items: 
+    - "{{ printers_from_csv }}"

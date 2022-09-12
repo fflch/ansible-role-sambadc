@@ -9,6 +9,10 @@
 - import_tasks: join_domain.yml
   when: sambadc_type == "join"
 
+- import_tasks: printers.yml
+  when: sambadc_load_printers_from_csv
+
+
 - import_tasks: smb.conf.yml  
 - import_tasks: krb5.conf.yml  
 - import_tasks: options.yml  
