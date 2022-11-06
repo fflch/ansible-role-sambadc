@@ -1,0 +1,16 @@
+- name: Disable smbd nmbd winbind services to DC samba installation
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+    masked: yes
+  loop:
+    - smbd 
+    - nmbd 
+    - winbind
+
+- name: Enable samba-ad-dc service to DC samba installation
+  systemd:
+    name: "samba-ad-dc"
+    enabled: yes
+    masked: no

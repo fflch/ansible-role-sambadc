@@ -1,14 +1,6 @@
 ---
-- name: Add backports repository
-  apt_repository:
-    repo: 'deb http://deb.debian.org/debian bullseye-backports main'
-    state: present
-    update_cache: true
-
 - name: Install samba packages from OS
   apt:
-# Por enquanto comentado:
-#    default_release: bullseye-backports
     pkg:
       - krb5-config
       - krb5-user
@@ -20,19 +12,3 @@
       - ldb-tools
       - samba-common
 
-- name: Disable smbd nmbd winbind services to DC samba installation
-  systemd:
-    name: "{{ item }}"
-    state: stopped
-    enabled: no
-    masked: yes
-  loop:
-    - smbd 
-    - nmbd 
-    - winbind
-
-- name: Enable samba-ad-dc service to DC samba installation
-  systemd:
-    name: "samba-ad-dc"
-    enabled: yes
-    masked: no

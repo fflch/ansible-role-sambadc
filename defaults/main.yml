@@ -4,6 +4,7 @@ sambadc_admin_password: 'Passw0dR209TT'
 sambadc_static: true
 sambadc_load_printers_from_csv: true
 sambadc_csv_printers: "{{ lookup('file', '../../files/printers.csv') }}"
+sambadc_use_backports: False
 
 # sambadc_type: new or join
 sambadc_type: "new"
