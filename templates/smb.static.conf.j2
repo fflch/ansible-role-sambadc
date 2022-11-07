@@ -8,7 +8,7 @@
 
     # Interfaces que o samba vai responder
     bind interfaces only = True
-    interfaces           = {{ sambadc_interfaces }}
+    interfaces           = {{ sambadc_smb_interfaces }}
 
     # Configurações do log
     log level = 3
