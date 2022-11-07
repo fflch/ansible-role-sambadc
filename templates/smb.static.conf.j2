@@ -8,7 +8,7 @@
 
     # Interfaces que o samba vai responder
     bind interfaces only = True
-    interfaces           = {{ sambadc_interfaces }}
+    interfaces           = {{ sambadc_smb_interfaces }}
 
     # Configurações do log
     log level = 3
@@ -27,7 +27,8 @@
 
     # Permite usar ACLs do windows no samba
     # https://wiki.samba.org/index.php/Setting_up_a_Share_Using_Windows_ACLs
-    vfs objects = acl_xattr 
+    # https://wiki.samba.org/index.php/Setting_up_Samba_as_an_Active_Directory_Domain_Controller#Using_the_Domain_Controller_as_a_File_Server_.28Optional.29
+    vfs objects = dfs_samba4 acl_xattr recycle
     map acl inherit = yes 
     store dos attributes = yes 
 
