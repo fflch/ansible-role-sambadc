@@ -44,6 +44,7 @@ Show domain level password options.
     samba-tool domain passwordsettings show
 
 ## Procedimento de restauração de backup em caso de pane.
+
 Baseado em https://wiki.samba.org/index.php/Using_the_samba_backup_script
 
 Criar nova máquina com:
@@ -83,3 +84,42 @@ Criar os arquivos para idepotência da role sambadc:
 Subir o serviço:
 
     /usr/sbin/service samba-ad-dc start
+
+
+## Procedimento de remover um Domain Controller manualmente
+
+Baseado em https://wiki.samba.org/index.php/Demoting_a_Samba_AD_DC
+
+Para verificar todos Domain Controllers que fazem parte do grupo:
+
+    ldbsearch -H /var/lib/samba/private/sam.ldb '(invocationId=*)' --cross-ncs objectguid
+
+### Caso em que ainda temos acesso ao DC que vamos desmontar
+
+O DC que vamos desmontar não pode ser owner. Para verificar em ambos DCs:
+
+    samba-tool fsmo show
+
+Exemplo de saída:
+
+    SchemaMasterRole owner: CN=NTDS Settings,CN=VAGRANTFIRSTDC,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=smbdomain,DC=local,DC=br
+
+Como o DC que vamos desmontar é o VAGRANTFIRSTDC, vamos acessar o novo DC e defini-lo como owner:
+
+    samba-tool fsmo transfer --role='all' -Uadministrator --password='SuperSenh@1'
+
+Rodando novamente:
+
+    samba-tool fsmo show
+
+Verificamos que VAGRANTSAMBADCDEBIAN11 agora é o owner:
+
+    SchemaMasterRole owner: CN=NTDS Settings,CN=VAGRANTSAMBADCDEBIAN11,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=smbdomain,DC=local,DC=br
+
+Voltando ao Domain Controller que queremos remover:
+
+    samba-tool domain demote -Uadministrator --password='SuperSenh@1'
+
+Verificar se o domain controller removido não faz mais parte dos Domains Controllers:
+
+    ldbsearch -H /var/lib/samba/private/sam.ldb '(invocationId=*)' --cross-ncs objectguid
