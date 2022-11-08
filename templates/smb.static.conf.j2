@@ -22,8 +22,11 @@
 
     # Melhora a performance das impressões
     # https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Print_Server
-    rpc_server:spoolss = external
-    rpc_daemon:spoolssd = fork
+    #rpc_server:spoolss = external
+    #rpc_daemon:spoolssd = fork
+
+    rpcd_spoolss:idle_seconds=300
+    rpcd_spoolss:num_workers = 10
 
     # Permite usar ACLs do windows no samba
     # https://wiki.samba.org/index.php/Setting_up_a_Share_Using_Windows_ACLs
