@@ -4,8 +4,14 @@ WHERE=/backups/samba
 WHEN=`date +%Y-%m-%d-%H%M`	# ISO 8601 standard date.
 DAYS=7
 
-/usr/sbin/service samba-ad-dc stop
 mkdir -p $WHERE/$WHEN
+mkdir -p $WHERE/offline
+mkdir -p $WHERE/online
+
+samba-tool domain backup online --targetdir="${WHERE}/online" --server={{ inventory_hostname }}.{{sambadc_realm}} -UAdministrator --password='{{ sambadc_admin_password }}' 
+samba-tool domain backup offline --targetdir="${WHERE}/offline"
+
+/usr/sbin/service samba-ad-dc stop
  
 /usr/bin/net getdomainsid > ${WHERE}/${WHEN}/domainsid.txt
 
@@ -89,3 +95,6 @@ find "/var/lib/samba" -name "*.tdb.bak" -exec rm {} \;
 find $WHERE -type d -mtime +$DAYS -print0 | xargs -0 rm -rf
 
 /usr/sbin/service samba-ad-dc start
+
+
+

@@ -3,7 +3,7 @@
 
 - name: copy samba_backup
   template:
-    src=samba_backup
+    src=samba_backup.j2
     dest=/usr/sbin/samba_backup
     owner=root
     group=root
