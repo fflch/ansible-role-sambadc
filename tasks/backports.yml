@@ -1,6 +1,0 @@
----
-- name: Add backports repository
-  apt_repository:
-    repo: 'deb http://deb.debian.org/debian bullseye-backports main'
-    state: present
-    update_cache: true
