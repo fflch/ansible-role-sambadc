@@ -123,3 +123,11 @@ Voltando ao Domain Controller que queremos remover:
 Verificar se o domain controller removido não faz mais parte dos Domains Controllers:
 
     ldbsearch -H /var/lib/samba/private/sam.ldb '(invocationId=*)' --cross-ncs objectguid
+    
+Listando entradas DNS no samba firstdc por cli:
+    
+    samba-tool dns query 192.168.8.48 smbdomain.local.br @ ALL -UAdministrator%SuperSenh@1
+
+Deletando a entrada de ip 192.168.121.237 do host printers.smbdomain.local.br por cli:
+
+    samba-tool dns delete 192.168.8.48 smbdomain.local.br printers.smbdomain.local.br A 192.168.121.237 -UAdministrator%SuperSenh@1
