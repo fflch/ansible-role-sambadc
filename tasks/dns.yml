@@ -4,3 +4,4 @@
     name: systemd-resolved
     state: stopped
     enabled: no
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "18.04"
