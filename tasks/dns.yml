@@ -1,7 +1,0 @@
-
-- name: Desabilita systemd-resolved, necessário em Ubuntu 18.04
-  systemd:
-    name: systemd-resolved
-    state: stopped
-    enabled: no
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "18.04"
