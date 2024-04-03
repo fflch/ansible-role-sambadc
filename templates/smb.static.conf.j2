@@ -10,9 +10,16 @@
     bind interfaces only = True
     interfaces           = {{ sambadc_smb_interfaces }}
 
-    # Configurações do log
-    log level = 3
-    log file  = /var/log/samba/%m.log
+    # Configurações do log                                                                                                                                   
+    log level = 5 auth_audit:5 auth_json_audit:5                                                                                                              
+    log file  = /var/log/samba/%m.log                                                                                                                         
+    # Audit settings                                                                                                                                          
+    full_audit:prefix = %u|%I|%S                                                                                                                              
+    full_audit:failure = connect                                                                                                                              
+    full_audit:success = connect disconnect opendir mkdir rmdir closedir open close read pread write pwrite sendfile rename unlink chmod                      
+    fchmod chown fchown chdir ftruncate lock symlink readlink link mknod realpath                                                                             
+    full_audit:facility = local5                                                                                                                              
+    full_audit:priority = notice 
 
     # Permite usar ACLs do windows no samba
     # https://wiki.samba.org/index.php/Setting_up_a_Share_Using_Windows_ACLs
