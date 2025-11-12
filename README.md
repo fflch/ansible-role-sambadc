@@ -131,3 +131,9 @@ Listando entradas DNS no samba firstdc por cli:
 Deletando a entrada de ip 192.168.121.237 do host printers.smbdomain.local.br por cli:
 
     samba-tool dns delete 192.168.8.48 smbdomain.local.br printers.smbdomain.local.br A 192.168.121.237 -UAdministrator%SuperSenh@1
+
+Deletando o computador ATFN-ROSA:
+    
+    ldbsearch -H /var/lib/samba/private/sam.ldb '(objectClass=computer)' dn sAMAccountName | grep ROSA
+    Resposta: dn: CN=ATFN-ROSA,CN=Computers,DC=smbdomain,DC=fflch,DC=usp,DC=br
+    ldbdel -H /var/lib/samba/private/sam.ldb "CN=ATFN-ROSA,CN=Computers,DC=smbdomain,DC=fflch,DC=usp,DC=br"
